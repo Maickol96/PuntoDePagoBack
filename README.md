@@ -53,8 +53,8 @@ Este proyecto es un backend desarrollado en Python con Flask, que consume la API
     }
 ] 
  ```
- ## Respuesta exitosa
-  200
+ ## Respuesta fallida
+  404
   ```json
 [
     {
