@@ -15,7 +15,6 @@ def get_weather_forecast(city):
         data = response.json()
         forecasts = []
 
-        # Procesar solo los primeros 4 días (8 registros por día, cada 3 horas)
         daily_forecast = {}
         for forecast in data["list"]:
             date = forecast["dt_txt"].split(" ")[0]
@@ -24,22 +23,18 @@ def get_weather_forecast(city):
             condition = forecast["weather"][0]["description"]
 
             if date not in daily_forecast:
-                # Añadir nueva entrada para cada día
                 daily_forecast[date] = {
                     "temp_min": temp_min,
                     "temp_max": temp_max,
                     "condition": condition
                 }
             else:
-                # Actualizar temperaturas mínima y máxima si son mayores o menores
                 daily_forecast[date]["temp_min"] = min(daily_forecast[date]["temp_min"], temp_min)
                 daily_forecast[date]["temp_max"] = max(daily_forecast[date]["temp_max"], temp_max)
 
-            # Finalizar si ya tenemos 4 días
             if len(daily_forecast) == 4:
                 break
 
-        # Convertir el diccionario en una lista de diccionarios para el formato JSON
         forecasts = [{"date": date, **info} for date, info in daily_forecast.items()]
         return forecasts
     elif response.status_code == 404:
